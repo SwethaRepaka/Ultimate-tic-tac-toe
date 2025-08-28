@@ -15,3 +15,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Winning line animations */
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes winningGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(79, 70, 229, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(79, 70, 229, 0.8));
+  }
+}
+
+@keyframes bigBoardGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(79, 70, 229, 0.6));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(79, 70, 229, 1));
+  }
+}
+
+.animate-draw-line {
+  animation: drawLine 0.8s ease-out forwards;
+}
+
+.animate-winning-glow {
+  animation: winningGlow 2s ease-in-out infinite;
+}
+
+.animate-big-board-glow {
+  animation: bigBoardGlow 2s ease-in-out infinite;
+}

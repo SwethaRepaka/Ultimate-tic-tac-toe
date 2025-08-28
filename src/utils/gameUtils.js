@@ -11,8 +11,21 @@ export const LINES = [
 ];
 
 export function calcWinner(cells) {
-  for (const [a, b, c] of LINES) {
-    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) return cells[a];
+  for (let i = 0; i < LINES.length; i++) {
+    const [a, b, c] = LINES[i];
+    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
+      return { winner: cells[a], line: LINES[i], lineIndex: i };
+    }
+  }
+  return null;
+}
+
+export function getWinningLine(cells) {
+  for (let i = 0; i < LINES.length; i++) {
+    const [a, b, c] = LINES[i];
+    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
+      return { line: LINES[i], lineIndex: i };
+    }
   }
   return null;
 }

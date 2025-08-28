@@ -2,14 +2,17 @@ import React from "react";
 import MiniBoard from "./MiniBoard";
 import { useGameLogic } from "../hooks/useGameLogic";
 import { classNames } from "../utils/gameUtils";
+import BigBoardWinningLine from "./BigBoardWinningLine";
 
 export default function UltimateTicTacToe() {
   const {
     boards,
     miniWinners,
+    miniWinningLines,
     currentPlayer,
     forced,
     globalWinner,
+    bigBoardWinningLine,
     history,
     undoCount,
     status,
@@ -55,8 +58,8 @@ export default function UltimateTicTacToe() {
           </div>
         </div>
 
-        {/* Macro board */}
-        <div className="grid grid-cols-3 grid-rows-3 gap-3 md:gap-4 p-2 md:p-3 rounded-3xl bg-white dark:bg-zinc-800 shadow">
+        {/* Macro board with winning line animation */}
+        <div className="relative grid grid-cols-3 grid-rows-3 gap-3 md:gap-4 p-2 md:p-3 rounded-3xl bg-white dark:bg-zinc-800 shadow">
           {boards.map((mini, i) => (
             <MiniBoard
               key={i}
@@ -64,10 +67,20 @@ export default function UltimateTicTacToe() {
               cells={mini}
               onPlay={handlePlay}
               winner={miniWinners[i]}
+              winningLine={miniWinningLines[i]}
               forced={forced}
               isForcedTarget={forced === null || forced === i}
               disabled={!!globalWinner}
             />)
+          )}
+          
+          {/* Big board winning line animation */}
+          {bigBoardWinningLine && globalWinner && globalWinner !== "D" && (
+            <BigBoardWinningLine
+              winner={globalWinner}
+              line={bigBoardWinningLine.line}
+              lineIndex={bigBoardWinningLine.lineIndex}
+            />
           )}
         </div>
 

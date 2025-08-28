@@ -1,11 +1,13 @@
 import React from "react";
 import { classNames } from "../utils/gameUtils";
+import WinningLine from "./WinningLine";
 
 export default function MiniBoard({
   index,
   cells,
   onPlay,
   winner,
+  winningLine,
   forced,
   isForcedTarget,
   disabled,
@@ -47,6 +49,16 @@ export default function MiniBoard({
           </span>
         </button>
       ))}
+
+      {/* Winning line animation */}
+      {winningLine && (
+        <WinningLine
+          winner={winner}
+          line={winningLine.line}
+          lineIndex={winningLine.lineIndex}
+          size="mini"
+        />
+      )}
 
       {/* Mini-board overlay badge when closed */}
       {winner && (

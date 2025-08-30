@@ -11,8 +11,10 @@ export default function MiniBoard({
   forced,
   isForcedTarget,
   disabled,
+  player1Emoji,
+  player2Emoji,
 }) {
-  const isClosed = winner !== null; // 'X' | 'O' | 'D' (draw) treated as closed
+  const isClosed = winner !== null; // emoji1 | emoji2 | 'D' (draw) treated as closed
 
   return (
     <div
@@ -22,7 +24,9 @@ export default function MiniBoard({
         "shadow-sm",
         isClosed ? "opacity-70" : "",
         disabled && !isForcedTarget ? "opacity-50" : "",
-        isForcedTarget && !isClosed ? "ring-4 ring-indigo-400" : "ring-1 ring-zinc-300"
+        isForcedTarget && !isClosed
+          ? "ring-4 ring-indigo-400"
+          : "ring-1 ring-zinc-300"
       )}
       aria-label={`Mini board ${index + 1}`}
     >
@@ -30,7 +34,12 @@ export default function MiniBoard({
         <button
           key={i}
           aria-label={`Cell ${i + 1} in mini ${index + 1}`}
-          disabled={disabled || isClosed || val !== null || (forced !== null && !isForcedTarget)}
+          disabled={
+            disabled ||
+            isClosed ||
+            val !== null ||
+            (forced !== null && !isForcedTarget)
+          }
           onClick={() => onPlay(index, i)}
           className={classNames(
             "h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24",
@@ -42,7 +51,11 @@ export default function MiniBoard({
         >
           <span
             className={classNames(
-              val === "X" ? "text-indigo-600" : val === "O" ? "text-emerald-600" : ""
+              val === player1Emoji
+                ? "text-indigo-600"
+                : val === player2Emoji
+                ? "text-emerald-600"
+                : ""
             )}
           >
             {val}
@@ -51,7 +64,7 @@ export default function MiniBoard({
       ))}
 
       {/* Winning line animation */}
-      {winningLine && (
+      {winningLine && winner && winner !== "D" && (
         <WinningLine
           winner={winner}
           line={winningLine.line}
@@ -60,14 +73,23 @@ export default function MiniBoard({
         />
       )}
 
-      {/* Mini-board overlay badge when closed */}
-      {winner && (
+      {/* Temporary debug indicator */}
+      {winningLine && (
+        <div className="absolute top-0 right-0 w-6 h-6 bg-red-500 text-white text-xs flex items-center justify-center rounded-full">
+          ✓
+        </div>
+      )}
+
+           {/* Mini-board overlay badge when closed */}
+           {winner && (
         <div className="absolute inset-0 grid place-items-center">
           <div className="pointer-events-none rounded-2xl px-3 py-1 text-white text-sm font-semibold bg-black/40 backdrop-blur">
             {winner === "D" ? "Draw" : `${winner} wins`}
           </div>
         </div>
       )}
+      {/* ✅ closing wrapper div */}
     </div>
   );
 }
+
